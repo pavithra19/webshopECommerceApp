@@ -1,0 +1,8 @@
+com.fulda.webshop
+com.fulda.webshop.config
+com.fulda.webshop.controller
+com.fulda.webshop.dto
+com.fulda.webshop.facade
+com.fulda.webshop.model
+com.fulda.webshop.repository
+com.fulda.webshop.service
