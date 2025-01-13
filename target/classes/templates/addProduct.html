@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 500px; /* Limit the width of the form */
+            margin: auto; /* Center the form on the page */
+        }
+        h1 {
+            text-align: center; /* Center the heading */
+        }
+        .form-group {
+            margin-bottom: 15px; /* Add space between form groups */
+        }
+        label {
+            display: block; /* Make labels block elements */
+            margin-bottom: 5px; /* Add space below labels */
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%; /* Full width for input fields */
+            padding: 10px; /* Add padding for better touch targets */
+            border: 1px solid #ccc; /* Add border to inputs */
+            border-radius: 4px; /* Rounded corners for inputs */
+        }
+		button {
+		    width: 100%; /* Full width for button */
+		    padding: 10px; /* Add padding for better touch targets */
+		    background-color: #007bff; /* Button color */
+		    color: white; /* Button text color */
+		    border: none; /* Remove border */
+		    border-radius: 4px; /* Rounded corners for button */
+		    cursor: pointer; /* Change cursor on hover */
+			margin-bottom: 15px; /* Add space below buttons */
+		}
+		.btn {
+            display: inline-block; /* Allows padding and margin */
+            padding: 10px; /* Adds space inside the button */
+            font-size: 16px; /* Sets font size */
+            color: black; /* Text color */
+            background-color: #d6e0e9; /* Button background color */
+            border: none; /* Removes border */
+            border-radius: 4px; /* Rounds the corners */
+            text-decoration: none; /* Removes underline from text */
+            cursor: pointer; /* Changes cursor to pointer on hover */
+            margin-right: 10px; /* Adds space between buttons */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+		
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Add New Product</h1>
+
+    <form id="addProductForm" th:action="@{/app/products}" method="post">
+        <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required />
+        </div>
+        <div class="form-group">
+            <label for="size">Size:</label>
+            <input type="text" id="size" name="size" required />
+        </div>
+        <div class="form-group">
+            <label for="color">Color:</label>
+            <input type="text" id="color" name="color" required />
+        </div>
+		<div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+        </div>
+		<div class="form-group">
+            <label for="type">Type:</label>
+            <input type="text" id="type" name="type" required>
+        </div>
+        <button type="submit">Add Product</button>
+    </form>
+
+    <!-- Button to navigate back to the catalog -->
+	<a href="/app/products/catalog-paginated" class="btn">Back to Catalog</a>
+</div>
+
+</body>
+</html>

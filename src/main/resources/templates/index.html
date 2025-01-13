@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .tile {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tile a {
+            text-decoration: none; /* Remove underline */
+            color: #007bff; /* Link color */
+            display: block; /* Make the entire tile clickable */
+            height: 100%; /* Ensure the link fills the tile */
+        }
+        .tile a:hover {
+            color: #0056b3; /* Change color on hover */
+        }
+    </style>
+</head>
+<body>
+<h1>Dashboard</h1>
+
+<div class="dashboard">
+    <div class="tile">
+        <h2>Product Catalog</h2>
+        <a th:href="@{/app/products/catalog-paginated}">View Products</a>
+    </div>
+    <div class="tile">
+        <h2>Add New Product</h2>
+        <a th:href="@{/app/products/add}">Add Product</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Set a clean font */
+            margin: 20px; /* Add margin around the body */
+            line-height: 1.6; /* Improve line spacing */
+            background-color: #f9f9f9; /* Light background color */
+        }
+        h1 {
+            text-align: center; /* Center the heading */
+            color: #333; /* Darker text color for the heading */
+        }
+        .product-details {
+            max-width: 600px; /* Limit width for better readability */
+            margin: 0 auto; /* Center the details box */
+            padding: 20px; /* Add padding inside the box */
+            background-color: white; /* White background for product details */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        p {
+            margin: 10px 0; /* Add margin between paragraphs */
+        }
+        .sold-out {
+            color: red; /* Red color for sold out message */
+            font-weight: bold; /* Bold text */
+        }
+        .btn {
+            display: inline-block; /* Allows padding and margin */
+            padding: 10px 15px; /* Adds space inside the button */
+            font-size: 16px; /* Sets font size */
+            color: white; /* Text color */
+            background-color: #007bff; /* Button background color */
+            border: none; /* Removes border */
+            border-radius: 5px; /* Rounds the corners */
+            text-decoration: none; /* Removes underline from text */
+            cursor: pointer; /* Changes cursor to pointer on hover */
+            margin-right: 10px; /* Adds space between buttons */
+        }
+		.btn-secondary {
+			color: black; /* Text color */
+            background-color: #d6e0e9; /* Different background color for secondary buttons */
+        }
+    </style>
+</head>
+<body>
+<h1>Product Details</h1>
+
+<div class="product-details">
+    <p>ID: <span th:text="${productDetailDTO.id}"></span></p>
+    <p>Name: <span th:text="${productDetailDTO.name}"></span></p>
+    <p>Price: <span th:text="${productDetailDTO.price}"></span></p>
+    <p>Size: <span th:text="${productDetailDTO.size}"></span></p>
+    <p>Color: <span th:text="${productDetailDTO.color}"></span></p>
+	<p>Type: <span th:text="${productDetailDTO.type}"></span></p>
+    
+    <!-- Display stock information -->
+    <p>Available Stock: <span th:text="${productDetailDTO.stock}"></span></p>
+    
+    <!-- Display sold out status -->
+    <div th:if="${productDetailDTO.isSoldOut}">
+        <strong class="sold-out">This product is sold out!</strong>
+    </div>
+
+    <!-- Add to Cart button -->
+	<a th:href="@{/app/cart/add/{id}(id=${productDetailDTO.id})}" class="btn">Add to Cart</a>
+
+    <!-- Button to navigate back to the catalog -->
+    <a href="/app/products/catalog-paginated" class="btn btn-secondary">Back to Catalog</a>
+</div>
+
+</body>
+</html>

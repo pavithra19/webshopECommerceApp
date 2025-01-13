@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .cart-container {
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .product-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .product-row:last-child {
+            border-bottom: none; /* Remove border for the last item */
+        }
+        .product-name {
+            flex: 1; /* Allow name to take available space */
+            text-align: left;
+        }
+        .product-quantity {
+            width: 100px; /* Fixed width for quantity */
+            text-align: center;
+        }
+        .total-price {
+            text-align: right; /* Align total price to the right */
+            font-weight: bold; /* Make total price bold */
+        }
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline */
+        }
+        .back-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+<div class="cart-container">
+    <h1>Your Shopping Cart</h1>
+
+    <div class="product-row">
+        <div class="product-name"><strong>Product Name</strong></div>
+        <div class="product-quantity"><strong>Quantity</strong></div>
+        <div class="total-price"><strong>Price</strong></div>
+    </div>
+
+    <div th:each="entry : ${cart.products.entrySet()}" class="product-row">
+        <div class="product-name" th:text="${entry.key.name}">Product Name</div>
+        <div class="product-quantity" th:text="${entry.value}">Quantity</div>
+        <div class="total-price" th:text="${entry.key.price * entry.value}">Price</div> <!-- Display total price for this product -->
+    </div>
+
+    <h3>Total Price: €<span th:text="${cart.getTotalPrice()}">0.00</span></h3>
+
+    <!-- Button to navigate back to the catalog -->
+    <a href="/app/products/catalog-paginated" class="back-button">Back to Catalog</a>
+</div>
+
+</body>
+</html>

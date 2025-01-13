@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .response {
+            margin-top: 20px;
+            color: green; /* Change this color based on success or error */
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="updateFormContainer">
+        <h1>Update Product</h1>
+
+        <!-- Form to update a product -->
+        <form id="updateForm">
+            <div class="form-group">
+                <label for="productId">Enter Product ID:</label>
+                <input type="number" id="productId" required>
+            </div>
+            <div class="form-group">
+                <label for="name">New Product Name:</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="price">New Price:</label>
+                <input type="number" id="price" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="size">New Size:</label>
+                <input type="text" id="size" required>
+            </div>
+            <div class="form-group">
+                <label for="color">New Color:</label>
+                <input type="text" id="color" required>
+            </div>
+            <button type="submit">Update Product</button>
+        </form>
+
+        <!-- Response message -->
+        <div id="responseMessage" class="response"></div>
+
+    </div>
+
+    <script>
+      document.getElementById('updateForm').addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent form from submitting normally
+
+          const id = document.getElementById('productId').value;
+          const updatedData = {
+              id: parseInt(id),
+              name: document.getElementById('name').value,
+              price: parseFloat(document.getElementById('price').value),
+              size: document.getElementById('size').value,
+              color: document.getElementById('color').value,
+          };
+
+          fetch(`/app/products/${id}`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(updatedData)
+          })
+          .then(response => {
+              if (response.ok) {
+                  return response.json(); // Expecting JSON response for the updated product
+              } else {
+                  throw new Error('Failed to update product'); // Handle error case
+              }
+          })
+          .then(data => {
+              document.getElementById('responseMessage').textContent = 'Updated Product: ' + JSON.stringify(data); // Display updated product details
+              document.getElementById('responseMessage').style.color = 'green'; // Success message color
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+              document.getElementById('responseMessage').textContent = 'Error updating product. Check product id and other details are valid';
+              document.getElementById('responseMessage').style.color = 'red'; // Error message color
+          });
+      });
+    </script>
+</body>
+</html>

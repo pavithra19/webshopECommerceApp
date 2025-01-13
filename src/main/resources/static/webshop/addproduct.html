@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+		.button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .success {
+            margin-top: 20px;
+            color: green;
+        }
+		.error {
+            margin-top: 20px;
+            color: red;
+	    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Product</h1>
+
+        <!-- Form to add a new product -->
+        <form id="productForm">
+            <div class="form-group">
+                <label for="name">Product Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="size">Size:</label>
+                <input type="text" id="size" name="size" required>
+            </div>
+            <div class="form-group">
+                <label for="color">Color:</label>
+                <input type="text" id="color" name="color" required>
+            </div>
+			<div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+            </div>
+			<div class="form-group">
+                <label for="type">Type:</label>
+                <input type="text" id="type" name="type" required>
+            </div>
+            <button type="submit">Add Product</button>
+        </form>
+
+        <!-- Response message -->
+        <div id="responseMessage" class="success"></div>
+
+        <!-- Link to view all products -->
+        <a id="viewProductsButton" href="/app/products/catalog-paginated" class="button" style="inline-block;">View All Products</a>
+    </div>
+
+    <script>
+      document.getElementById('productForm').addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent form from submitting normally
+
+          const productData = {
+              name: document.getElementById('name').value,
+              price: parseFloat(document.getElementById('price').value),
+              size: document.getElementById('size').value,
+              color: document.getElementById('color').value,
+			  description: document.getElementById('description').value,
+			  type: document.getElementById('type').value,
+          };
+
+          fetch('/app/products', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(productData)
+          })
+          .then(response => {
+			if (response.ok) {
+			                  return response.json(); // Parse JSON response
+			              } else {
+			                  throw new Error('Failed to add product');
+			              }
+					  })
+          .then(data => {
+			const responseMessage = document.getElementById('responseMessage');
+	        responseMessage.textContent = 'Product added successfully! ID: ' + data.id; // Display success message
+	        responseMessage.className = 'success'; // Set class for success styling
+          })
+          .catch((error) => {
+			console.error('Error:', error);
+			const responseMessage = document.getElementById('responseMessage');
+			responseMessage.textContent = 'Error adding product: ' + error.message; // Display error message
+			responseMessage.className = 'error'; // Set class for error styling
+          });
+      });
+    </script>
+</body>
+</html>

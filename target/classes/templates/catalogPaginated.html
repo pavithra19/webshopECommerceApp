@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Catalog - Paginated</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Set a clean font */
+            margin: 20px; /* Add margin around the body */
+            line-height: 1.6; /* Improve line spacing */
+        }
+        h1 {
+            text-align: center; /* Center the heading */
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .filter-buttons,
+        .action-buttons {
+            margin: 10px 0; /* Add space above and below */
+        }
+        .btn {
+            display: inline-block; /* Allows padding and margin */
+            padding: 10px 15px; /* Adds space inside the button */
+            font-size: 16px; /* Sets font size */
+            color: white; /* Text color */
+            background-color: #007bff; /* Button background color */
+            border: none; /* Removes border */
+            border-radius: 5px; /* Rounds the corners */
+            text-decoration: none; /* Removes underline from text */
+            cursor: pointer; /* Changes cursor to pointer on hover */
+            margin-right: 10px; /* Adds space between buttons */
+        }
+        .btn-secondary {
+			color: black; /* Text color */
+			background-color: #d6e0e9; /* Different background color for secondary buttons */
+        }
+		.btn-home {
+			color: white; /* Text color */
+            background-color: #000000; /* Different background color for home button */
+        }
+		.btn-delete {
+			padding: 6px 9px; /* Adds space inside the button */
+            background-color: #cc3321; /* Different background color for delete buttons */
+			color: white; /* Text color */
+        }
+        table {
+            width: 100%; /* Make table take full width */
+            border-collapse: collapse; /* Remove double borders */
+            margin-top: 20px; /* Add space above the table */
+        }
+        th, td {
+            padding: 10px; /* Add padding to table cells */
+            text-align: left; /* Align text to the left */
+            border-bottom: 1px solid #ddd; /* Add a bottom border to rows */
+        }
+        th {
+            background-color: #f2f2f2; /* Light gray background for headers */
+        }
+        .pagination {
+            margin-top: 20px; /* Space above pagination controls */
+            text-align: center; /* Center pagination controls */
+        }
+    </style>
+</head>
+<body>
+<h1>Product Catalog - Paginated</h1>
+
+<!-- Display error message if it exists -->
+<div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+<!-- Search form -->
+<form action="/app/products/catalog-paginated" method="get">
+    <input type="text" name="search" placeholder="Search by name" th:value="${search}" />
+    <button type="submit" class="btn btn-secondary">Search</button>
+</form>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Size</th>
+        <th>Color</th>
+		<th>Type</th>
+		<th>Actions</th>
+	</tr>
+
+	<tr th:each="product : ${products}">
+		<td th:text="${product.id}"></td>
+		<td th:text="${product.name}"></td>
+		<td th:text="${product.price}"></td>
+		<td th:text="${product.size}"></td>
+		<td th:text="${product.color}"></td>
+		<td th:text="${product.type}"></td>
+		<td class="action-buttons">
+			<!-- View Product Details button -->
+			<a th:href="@{/app/products/{id}(id=${product.id})}" class="btn btn-secondary">View Details</a>
+						
+            <!-- Add to Cart button -->
+            <a th:href="@{/app/cart/add/{id}(id=${product.id})}" class="btn">Add to Cart</a>
+
+			<!-- Delete button -->
+			<a th:href="@{/app/products/delete/{id}(id=${product.id})}" class="btn btn-delete">Delete</a> <!-- Delete link -->
+		</td>
+	</tr>
+</table>
+
+<!-- Pagination Controls -->
+<div class="pagination">
+   <span th:if="${currentPage.hasPrevious()}">
+       <a th:href="@{/app/products/catalog-paginated(page=${currentPage.number - 1}, search=${search})}" class="btn btn-secondary">Previous</a>
+   </span>
+
+   <span th:if="${currentPage.hasNext()}">
+       <a th:href="@{/app/products/catalog-paginated(page=${currentPage.number + 1}, search=${search})}" class="btn">Next</a>
+   </span>
+
+   <p>Page <span th:text="${currentPage.number + 1}"></span> of <span th:text="${currentPage.totalPages}"></span></p>
+</div>
+
+<!-- Button to add a new product -->
+<a href="/app/products/add" class="btn">Add New Product</a>
+
+<a href="/" class="btn btn-home">Home</a>
+
+</body>
+</html>
